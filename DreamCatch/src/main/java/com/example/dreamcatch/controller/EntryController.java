@@ -1,19 +1,20 @@
 package com.example.dreamcatch.controller;
 
 import com.example.dreamcatch.model.Entry;
-import com.example.dreamcatch.service.EntryService;
+import com.example.dreamcatch.model.MetricChart;
+import com.example.dreamcatch.service.IEntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin()
 @RestController
 @RequestMapping("/entry")
 public class EntryController {
     @Autowired
-    private EntryService entryService;
+    private IEntryService entryService;
 
     @GetMapping("/get")
     public List<Entry> getAllEntries() {
@@ -38,5 +39,11 @@ public class EntryController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Entry> delete(@PathVariable Long id) {
         return entryService.delete(id);
+    }
+
+    @GetMapping("/get-chart")
+    public ResponseEntity<MetricChart> createChart(@RequestParam String chartType,
+            @RequestParam Long userId) {
+        return entryService.createChart(chartType, userId);
     }
 }

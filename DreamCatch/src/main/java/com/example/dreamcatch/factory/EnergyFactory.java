@@ -1,8 +1,7 @@
 package com.example.dreamcatch.factory;
 
 public class EnergyFactory extends MetricFactory {
-    @Override
-    public MetricChart createChart() {
+    protected IMetricChart createMetricChart() {
         return new EnergyChart();
     }
 }

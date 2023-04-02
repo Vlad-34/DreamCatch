@@ -2,7 +2,7 @@ package com.example.dreamcatch.factory;
 
 public class DurationFactory extends MetricFactory {
     @Override
-    public MetricChart createChart() {
+    protected IMetricChart createMetricChart() {
         return new DurationChart();
     }
 }

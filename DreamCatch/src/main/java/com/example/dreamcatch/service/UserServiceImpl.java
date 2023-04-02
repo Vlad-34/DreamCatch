@@ -1,7 +1,7 @@
 package com.example.dreamcatch.service;
 
 import com.example.dreamcatch.model.User;
-import com.example.dreamcatch.repository.UserRepository;
+import com.example.dreamcatch.repository.IUserRepository;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements IUserService {
     @Autowired
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
 
     @Override
     public List<User> getAll() {
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
 
         if(user == null || !BCrypt.checkpw(passwordToCheck, user.getPassword()))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.ok(user);
     }
 
     @Override

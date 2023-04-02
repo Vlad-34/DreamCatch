@@ -1,19 +1,25 @@
 package com.example.dreamcatch.service;
 
+import com.example.dreamcatch.factory.DurationFactory;
+import com.example.dreamcatch.factory.EnergyFactory;
+import com.example.dreamcatch.factory.MetricFactory;
+import com.example.dreamcatch.factory.StressFactory;
 import com.example.dreamcatch.model.Entry;
-import com.example.dreamcatch.repository.EntryRepository;
+import com.example.dreamcatch.model.MetricChart;
+import com.example.dreamcatch.repository.IEntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
-import java.util.List;
-import java.util.Optional;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
-public class EntryServiceImpl implements EntryService {
+public class EntryServiceImpl implements IEntryService {
     @Autowired
-    private EntryRepository entryRepository;
+    private IEntryRepository entryRepository;
 
     @Override
     public List<Entry> getAll() {
@@ -30,8 +36,18 @@ public class EntryServiceImpl implements EntryService {
 
     @Override
     public ResponseEntity<Entry> save(Entry entry) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date currentDate = new Date();
+        String formattedDate = dateFormat.format(currentDate);
+        Date date;
+        try {
+            date = dateFormat.parse(formattedDate);
+            entry.setDate(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         entryRepository.save(entry);
-        return ResponseEntity.created(URI.create("/users/" + entry.getId())).body((entry));
+        return ResponseEntity.created(URI.create("/entry/" + entry.getId())).body((entry));
     }
 
     @Override
@@ -55,5 +71,31 @@ public class EntryServiceImpl implements EntryService {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    // TODO: userId
+    @Override
+    public ResponseEntity<MetricChart> createChart(String chartType, Long userId) {
+        MetricFactory metricFactory;
+        List<Entry> entries = entryRepository.findAllByUserId(userId);
+        if(entries.isEmpty()) {
+            return ResponseEntity.ok().build();
+        } else {
+            switch (chartType) {
+                case "duration" -> {
+                    metricFactory = new DurationFactory();
+                    return ResponseEntity.ok(metricFactory.makeChart(entries));
+                }
+                case "energy" -> {
+                    metricFactory = new EnergyFactory();
+                    return ResponseEntity.ok(metricFactory.makeChart(entries));
+                }
+                case "stress" -> {
+                    metricFactory = new StressFactory();
+                    return ResponseEntity.ok(metricFactory.makeChart(entries));
+                }
+            }
+        }
+        return ResponseEntity.ok().build();
     }
 }

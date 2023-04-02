@@ -1,19 +1,19 @@
 package com.example.dreamcatch.controller;
 
 import com.example.dreamcatch.model.User;
-import com.example.dreamcatch.service.UserService;
+import com.example.dreamcatch.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin()
 @RestController
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     @GetMapping("/get")
     public List<User> getAllUsers() {
