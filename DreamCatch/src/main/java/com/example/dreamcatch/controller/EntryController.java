@@ -43,7 +43,7 @@ public class EntryController {
 
     @GetMapping("/get-chart")
     public ResponseEntity<MetricChart> createChart(@RequestParam String chartType,
-            @RequestParam Long userId) {
-        return entryService.createChart(chartType, userId);
+            @RequestParam Long userId, @RequestParam String startDate, @RequestParam String strategy) {
+        return entryService.createChart(chartType, userId, startDate, strategy);
     }
 }

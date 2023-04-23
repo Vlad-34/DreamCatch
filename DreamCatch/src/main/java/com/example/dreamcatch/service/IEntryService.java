@@ -12,5 +12,5 @@ public interface IEntryService {
     ResponseEntity<Entry> save(Entry entry);
     ResponseEntity<Entry> edit(Long id, Entry entryDetails);
     ResponseEntity<Entry> delete(Long id);
-    ResponseEntity<MetricChart> createChart(String chartType, Long userId);
+    ResponseEntity<MetricChart> createChart(String chartType, Long userId, String startDate, String strategy);
 }
