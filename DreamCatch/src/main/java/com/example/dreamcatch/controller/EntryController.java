@@ -1,5 +1,6 @@
 package com.example.dreamcatch.controller;
 
+import com.example.dreamcatch.decorator.ChartColor;
 import com.example.dreamcatch.model.Entry;
 import com.example.dreamcatch.model.MetricChart;
 import com.example.dreamcatch.service.IEntryService;
@@ -44,6 +45,10 @@ public class EntryController {
     @GetMapping("/get-chart")
     public ResponseEntity<MetricChart> createChart(@RequestParam String chartType,
             @RequestParam Long userId, @RequestParam String startDate, @RequestParam String strategy) {
-        return entryService.createChart(chartType, userId, startDate, strategy);
+        //
+        // decorator
+        ResponseEntity<MetricChart> chart = entryService.createChart(chartType, userId, startDate, strategy);
+        ChartColor chartColor = new ChartColor();
+        return chartColor.updateColor(chart, chartType);
     }
 }

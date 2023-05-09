@@ -5,17 +5,19 @@ interface Props {
   title: string;
   data: number[];
   timestamps: string[];
+  color: string;
 }
 
-export const MyChart = ({ title, data, timestamps }: Props) => {
+export const MyChart = ({ title, data, timestamps, color }: Props) => {
   const chartRef = React.useRef(null);
 
   React.useEffect(() => {
     const chartData = {
       series: [
         {
-          title: title,
+          name: title,
           data: data,
+          color: color, // IMPORTANT
         },
       ],
       xaxis: {

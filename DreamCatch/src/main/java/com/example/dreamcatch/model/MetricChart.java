@@ -17,4 +17,5 @@ public class MetricChart {
     private String title;
     private List<Date> dates = new ArrayList<>();
     private List<Integer> dataPoints = new ArrayList<>();
+    private String color;
 }

@@ -20,6 +20,7 @@ function MyEntryForm() {
   const [strategy, setStrategy] = useState("");
   const [dataPoints, setDataPoints] = useState([] as number[]);
   const [timestamps, setTimestamps] = useState([] as string[]);
+  const [color, setColor] = useState("");
   const [userId, setUserId] = useState(0);
 
   useEffect(() => {
@@ -90,8 +91,9 @@ function MyEntryForm() {
           setTitle(data.title);
           setDataPoints(data.dataPoints);
           setTimestamps(data.timestamps);
-          // const { title, dataPoints, timestamps } = data;
-          console.log(title, dataPoints, timestamps);
+          setColor(data.color);
+          // const { title, dataPoints, timestamps, color } = data;
+          console.log(title, dataPoints, timestamps, color);
         })
         .catch((error) => console.error("Error fetching data", error));
     }
@@ -217,7 +219,12 @@ function MyEntryForm() {
             Get Chart
           </Button>
 
-          <MyChart title={title} data={dataPoints} timestamps={timestamps} />
+          <MyChart
+            title={title}
+            data={dataPoints}
+            timestamps={timestamps}
+            color={color}
+          />
         </div>
       </div>
     </Fragment>
